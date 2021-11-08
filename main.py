@@ -4,6 +4,7 @@ import numpy as np
 from scipy.spatial import Voronoi
 import cv2
 from seaborn import color_palette
+import json
 
 point_matrix = []
 
@@ -48,57 +49,60 @@ if __name__ == "__main__":
     # points = pick_points('tr_map.png')
 
     img = cv2.imread('tr_map.png')
-    img_copy = img.copy()
     
+    grid_size = 40 # pixels
+    grid_xlim = [-44,64]
+    grid_ylim = [-64,34]
+
+    with open('./coord.json') as fp:
+        coord_dict = json.load(fp)
+
+    # for i in range(grid_xlim[1]-grid_xlim[0]+1):
+    #     for j in range(grid_ylim[1]-grid_ylim[0]+1):
+    #         pt1 = (i*grid_size, j*grid_size)
+    #         pt2 = ((i+1)*grid_size, (j+1)*grid_size)
+
+    #         cv2.rectangle(img, pt1, pt2, (0,255,0), 3)
+    
+    for style, locs in coord_dict.items():
+        print(style)
+        img_style = img.copy()
 
 
+        # compute points
+        points = []
+        for name, loc in locs.items():
+            px = (loc[0]-grid_xlim[0]) * grid_size + grid_size/2
+            py = (grid_ylim[1]-loc[1]) * grid_size + grid_size/2
 
-    points = np.array(
-        [[2492,  420],
-        [1692 ,1196],
-        [2860 ,1588],
-        [1844 ,1896],
-        [2476 , 784],
-        [ 896 , 704],
-        [3272 ,2064],
-        [1368 , 952],
-        [2780 ,1344],
-        [1736 ,1484],
-        [2700 ,2504],
-        [2044 ,2128],
-        [1776 ,1676],
-        [3180 ,1660],
-        [2488 ,1260],
-    ])
+            # print(f'{name}: {loc} ==> {(px,py)}')
+            points.append([px,py])
 
-    # compute Voronoi tesselation
-    vor = Voronoi(points)
 
-    # plot
-    regions, vertices = voronoi_finite_polygons_2d(vor)
-    # colors = color_palette("cubehelix", len(regions))
-    colors = color_palette("icefire", len(regions))
-
-    for i,region in enumerate(regions):
-
-        polygon = vertices[region]
-        contours = polygon.astype(int)
+        # compute Voronoi tesselation
+        vor = Voronoi(points)
         
-        c = np.array(colors[i])*255
+        # plot
+        regions, vertices = voronoi_finite_polygons_2d(vor)
+        colors = color_palette("cubehelix", len(regions))
+        # colors = color_palette("icefire", len(regions))
+        
+        # Continuous
+        for i,region in enumerate(regions):
+            polygon = vertices[region]
+            contours = polygon.astype(int)
 
-        # if i == 14:
-        #     c = c + np.array([100,100,0])
+            c = np.array(colors[i])*255
+            cv2.fillPoly(img_style, pts=[contours], color=c)
+            cv2.drawContours(img_style, [contours], -1, (0,0,0), 2, lineType=cv2.LINE_AA)
+            # print(i,':',colors[i] )
+            
+        alpha = 0.5
+        img_comp =  cv2.addWeighted(img_style, alpha, img, 1 - alpha, 0)
 
-        cv2.fillPoly(img, pts =[contours], color=c)
-        # print(i,':',colors[i] )
+        for p in points:
+            cv2.circle(img_comp, (int(p[0]),int(p[1])), radius=10, color=(0,0,0), thickness=-1)
 
 
-
-    alpha = 0.5
-    img_comp =  cv2.addWeighted(img, alpha, img_copy, 1 - alpha, 0)
-
-    for p in points:
-        cv2.circle(img_comp, p, radius=10, color=(0,0,0), thickness=-1)
-
-    cv2.imwrite("test.png",img_comp)
-
+        cv2.imwrite(f'test_{style}.png',img_comp)
+   
