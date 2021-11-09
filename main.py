@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 from colorized_voroni import voronoi_finite_polygons_2d
 import numpy as np 
 from scipy.spatial import Voronoi
