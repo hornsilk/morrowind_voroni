@@ -59,8 +59,7 @@ if __name__ == "__main__":
     for map, locs in coord_dict.items():
         print(map)
         
-        colors = color_palette("cubehelix", len(locs))
-        # colors = color_palette("icefire", len(locs))
+        colors = color_palette("Paired", len(locs))
 
         for style in ['continuous', 'discrete']:
             print(style)
