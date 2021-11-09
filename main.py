@@ -57,13 +57,15 @@ if __name__ == "__main__":
         coord_dict = json.load(fp)
     
     for map, locs in coord_dict.items():
+        if 'OG' not in map:
+            continue
         print(map)
-
         
         colors = color_palette("cubehelix", len(locs))
         # colors = color_palette("icefire", len(locs))
 
-        for style in ['continuous', 'discrete']:
+        # for style in ['continuous', 'discrete']:
+        for style in ['discrete']:
             print(style)
             img_style = img.copy()
 
@@ -100,7 +102,7 @@ if __name__ == "__main__":
                 cells = -1*np.ones((grid_ylim[1] - grid_ylim[0]+1, grid_xlim[1] - grid_xlim[0]+1))
                 for x in range(grid_xlim[0], grid_xlim[1]+1):
                     for y in range(grid_ylim[0], grid_ylim[1]+1):
-                        node_idx = np.argmin(np.apply_along_axis(np.linalg.norm, 1, node_locations - [x,y]))
+                        node_idx = np.argmin(np.apply_along_axis(np.amax, 1, abs(node_locations - [x,y])))
                         # print(x,y,node_idx)
 
                         i = (x - grid_xlim[0])

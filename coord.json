@@ -42,5 +42,138 @@
         "Pelagiad": [0,-7],
         "Windmoth Legion Fort": [35,-7],
         "Wolverine Hall": [18,3]
+    },
+    "divine_og_2":
+    {  
+        "Gnisis": [-10,11],
+        "Wolverine Hall": [18,3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Pelagiad": [0,-7],
+        "Ebonheart": [1,-13]
+    },
+    "divine_og_3":
+    {  
+        "Gnisis": [-10,11],
+        "Wolverine Hall": [18,3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Ebonheart": [1,-13],
+        "Pelagiad": [0,-7]
+    },
+    "divine_og_4":
+    {  
+        "Gnisis": [-10,11],
+        "Wolverine Hall": [18,3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Ebonheart": [1,-13],
+        "Pelagiad": [0,-7],
+        "Moonmoth Legion Fort": [-1,-3]
+    },
+    "divine_og_5":
+    {  
+        "Gnisis": [-10,11],
+        "Wolverine Hall": [18,3],
+        "Ebonheart": [1,-13],
+        "Pelagiad": [0,-7],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Buckmorth Legion Fort": [-2,5]
+    },
+    "divine_og_6":
+    {  
+        "Ebonheart": [1,-13],
+        "Pelagiad": [0,-7],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Wolverine Hall": [18,3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Gnisis": [-10,11]
+    },
+    "divine_og_7":
+    {  
+        "Ebonheart": [1,-13],
+        "Pelagiad": [0,-7],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Gnisis": [-10,11],
+        "Wolverine Hall": [18,3]
+    },
+    "divine_og_8_p2":
+    {  
+        "Ebonheart": [1,-13],
+        "Pelagiad": [0,-7],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Wolverine Hall": [18,3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Gnisis": [-10,11]
+    },
+    "divine_og_9":
+    {  
+        "Ebonheart": [1,-13],
+        "Pelagiad": [0,-7],
+        "Wolverine Hall": [18,3],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Gnisis": [-10,11]
+    },
+    "divine_og_8_p1":
+    {  
+        "Pelagiad": [0,-7],
+        "Ebonheart": [1,-13],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Wolverine Hall": [18,3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Gnisis": [-10,11]
+    },
+    "divine_og_8_p3":
+    {  
+        "Ebonheart": [1,-13],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Pelagiad": [0,-7],
+        "Wolverine Hall": [18,3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Gnisis": [-10,11]
+    },
+    "divine_OG_8_p4":
+    {  
+        "Ebonheart": [1,-13],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Wolverine Hall": [18,3],
+        "Pelagiad": [0,-7],
+        "Buckmorth Legion Fort": [-2,5],
+        "Gnisis": [-10,11]
+    },
+    "divine_og_8_p5":
+    {  
+        "Ebonheart": [1,-13],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Wolverine Hall": [18,3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Pelagiad": [0,-7],
+        "Gnisis": [-10,11]
+    },
+    "divine_og_8_p6":
+    {  
+        "Ebonheart": [1,-13],
+        "Moonmoth Legion Fort": [-1,-3],
+        "Wolverine Hall": [18,3],
+        "Buckmorth Legion Fort": [-2,5],
+        "Gnisis": [-10,11],
+        "Pelagiad": [0,-7]
+    },
+    "almsivi_OG_0":
+    {
+        "Vivec, Temple": [4,-13],
+        "Molag Mar": [13,-8],
+        "Balmora": [-3,-2],
+        "Ald-ruhn": [-2,6],
+        "Gnisis": [-11,11]
+    },
+    "almsivi_og_1":
+    {
+        "Vivec, Temple": [4,-13],
+        "Molag Mar": [13,-8],
+        "Ald-ruhn": [-2,6],
+        "Balmora": [-3,-2],
+        "Gnisis": [-11,11]
     }
 }
