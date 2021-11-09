@@ -56,53 +56,78 @@ if __name__ == "__main__":
 
     with open('./coord.json') as fp:
         coord_dict = json.load(fp)
-
-    # for i in range(grid_xlim[1]-grid_xlim[0]+1):
-    #     for j in range(grid_ylim[1]-grid_ylim[0]+1):
-    #         pt1 = (i*grid_size, j*grid_size)
-    #         pt2 = ((i+1)*grid_size, (j+1)*grid_size)
-
-    #         cv2.rectangle(img, pt1, pt2, (0,255,0), 3)
     
-    for style, locs in coord_dict.items():
-        print(style)
-        img_style = img.copy()
+    for map, locs in coord_dict.items():
+        print(map)
 
-
-        # compute points
-        points = []
-        for name, loc in locs.items():
-            px = (loc[0]-grid_xlim[0]) * grid_size + grid_size/2
-            py = (grid_ylim[1]-loc[1]) * grid_size + grid_size/2
-
-            # print(f'{name}: {loc} ==> {(px,py)}')
-            points.append([px,py])
-
-
-        # compute Voronoi tesselation
-        vor = Voronoi(points)
         
-        # plot
-        regions, vertices = voronoi_finite_polygons_2d(vor)
-        colors = color_palette("cubehelix", len(regions))
-        # colors = color_palette("icefire", len(regions))
-        
-        # Continuous
-        for i,region in enumerate(regions):
-            polygon = vertices[region]
-            contours = polygon.astype(int)
+        colors = color_palette("cubehelix", len(locs))
+        # colors = color_palette("icefire", len(locs))
 
-            c = np.array(colors[i])*255
-            cv2.fillPoly(img_style, pts=[contours], color=c)
-            cv2.drawContours(img_style, [contours], -1, (0,0,0), 2, lineType=cv2.LINE_AA)
-            # print(i,':',colors[i] )
+        for style in ['continuous', 'discrete']:
+            print(style)
+            img_style = img.copy()
+
+
+            # compute points
+            points = []
+            for name, loc in locs.items():
+                px = (loc[0]-grid_xlim[0]) * grid_size + grid_size/2
+                py = (grid_ylim[1]-loc[1]) * grid_size + grid_size/2
+
+                # print(f'{name}: {loc} ==> {(px,py)}')
+                points.append([px,py])
+
+            if style == 'continuous':
+                # compute Voronoi tesselation
+                vor = Voronoi(points)
+                
+                # plot
+                regions, vertices = voronoi_finite_polygons_2d(vor)
+                
+                # Continuous
+                for i,region in enumerate(regions):
+                    polygon = vertices[region]
+                    contours = polygon.astype(int)
+
+                    c = np.array(colors[i])*255
+                    cv2.fillPoly(img_style, pts=[contours], color=c)
+                    cv2.drawContours(img_style, [contours], -1, (0,0,0), 2, lineType=cv2.LINE_AA)
+                    # print(i,':',colors[i] )
             
-        alpha = 0.5
-        img_comp =  cv2.addWeighted(img_style, alpha, img, 1 - alpha, 0)
+            elif style == 'discrete':
+                node_locations = np.array(list(locs.values()))
 
-        for p in points:
-            cv2.circle(img_comp, (int(p[0]),int(p[1])), radius=10, color=(0,0,0), thickness=-1)
+                cells = -1*np.ones((grid_ylim[1] - grid_ylim[0]+1, grid_xlim[1] - grid_xlim[0]+1))
+                for x in range(grid_xlim[0], grid_xlim[1]+1):
+                    for y in range(grid_ylim[0], grid_ylim[1]+1):
+                        node_idx = np.argmin(np.apply_along_axis(np.linalg.norm, 1, node_locations - [x,y]))
+                        # print(x,y,node_idx)
+
+                        i = (x - grid_xlim[0])
+                        j = (grid_ylim[1] - y)
+                        cells[j,i] = node_idx
 
 
-        cv2.imwrite(f'test_{style}.png',img_comp)
+                        pt1 = (i*grid_size, j*grid_size)
+                        pt2 = ((i+1)*grid_size, (j+1)*grid_size)
+                        c = np.array(colors[node_idx])*255
+
+                        cv2.rectangle(img_style, pt1, pt2, c, -1)
+                
+                # detect edges
+                img_gray = cv2.cvtColor(img_style, cv2.COLOR_BGR2GRAY)
+                edges = cv2.Canny(image=img_gray, threshold1=0, threshold2=200)
+                img_style = cv2.bitwise_and(img_style, img_style, mask=(255-edges))
+
+
+            alpha = 0.5
+            img_comp =  cv2.addWeighted(img_style, alpha, img, 1 - alpha, 0)
+
+            for p in points:
+                cv2.circle(img_comp, (int(p[0]),int(p[1])), radius=10, color=(0,0,0), thickness=-1)
+
+            cv2.putText(img_comp, f'{map}_{style}_map', (50,150), cv2.FONT_HERSHEY_SIMPLEX, 5, (0,0,0), thickness=2)
+
+            cv2.imwrite(f'{map}_{style}.png',img_comp)
    
