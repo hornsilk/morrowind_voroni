@@ -31,7 +31,7 @@ def produce_map(img, coord_dict, map_type, mod_list):
     if 'Anthology_Solstheim' in mod_set and 'Bloodmoon' not in mod_set:
         mod_set.remove('Anthology_Solstheim')
 
-    mod_list = list(mod_set)
+    mod_list = sorted(list(mod_set))
 
     
     # cell coordinates of the world map
@@ -187,7 +187,7 @@ if __name__ == "__main__":
 
     mod_list = ['Morrowind', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim']
 
-        for map_type in ['Almsivi', 'Divine']:
-            coord_dict = master_dict[map_type]
-            produce_map(img, coord_dict, map_type, mod_list.copy())
+    for map_type in ['Almsivi', 'Divine']:
+        coord_dict = master_dict[map_type]
+        produce_map(img, coord_dict, map_type, mod_list.copy())
 
