@@ -76,7 +76,7 @@ if __name__ == "__main__":
                 points.append([px,py])
 
             # hypothesis: higher up (smaller y) has priority, then left to right
-            points = sorted(points, key = lambda x: x[1]+x[0]/10000000) 
+            points = sorted(points, key = lambda x: -x[1]+x[0]/10000000) 
 
             if style == 'continuous':
                 # compute Voronoi tesselation
