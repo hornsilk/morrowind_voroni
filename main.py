@@ -69,6 +69,12 @@ def produce_map(img, coord_dict, map_type, mod_list):
             if tp[2] == 'Vvardenfell':
                 locs[name] = [tp[0], tp[1]]
 
+        # Handle the Vos Node specially, as it is in both Improved_Temple_Experience and TR_Travels
+        if name == 'Vos':
+            if 'Improved_Temple_Experience' in mod_list or 'TR_Travels' in mod_list:
+                locs[name] = [tp[0], tp[1]]
+            continue
+
         # add modded in locations
         if tp[2] in mod_list:
             
@@ -177,17 +183,9 @@ if __name__ == "__main__":
     with open('./coord.json') as fp:
         master_dict = json.load(fp)
     
-    mod_options = ['Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW']
+    mod_options = ['Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience']
 
-    for i in range(256):
-        temp = "{0:b}".format(i).zfill(8)
-        print(f'{i} ==> {temp}')
-        
-        mod_list = ['Morrowind']
-
-        for idx in range(8):
-            if temp[idx] == '1':
-                mod_list.append(mod_options[idx])
+    mod_list = ['Morrowind', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim']
 
         for map_type in ['Almsivi', 'Divine']:
             coord_dict = master_dict[map_type]
