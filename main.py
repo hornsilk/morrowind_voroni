@@ -171,7 +171,7 @@ def produce_map(img, coord_dict, map_type, mod_list):
     cv2.putText(img_comp, map_name, (50,150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0,0,0), thickness=2)
 
     # Save
-    cv2.imwrite(f'./maps/{map_name}.png',img_comp)
+    cv2.imwrite(f'./generated_maps/{map_name}.png',img_comp)
    
 
 
