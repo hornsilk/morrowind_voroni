@@ -1,5 +1,7 @@
 ### Almsivi
 # Static - TempleMarker (20)
+https://en.uesp.net/wiki/File:MW-map-Almsivi_Intervention.jpg
 
 ### Imperial
 # Static - DivineMarker (18)
+https://en.uesp.net/wiki/File:MW-map-Divine_Intervention.jpg

@@ -57,15 +57,12 @@ if __name__ == "__main__":
         coord_dict = json.load(fp)
     
     for map, locs in coord_dict.items():
-        if 'OG' not in map:
-            continue
         print(map)
         
         colors = color_palette("cubehelix", len(locs))
         # colors = color_palette("icefire", len(locs))
 
-        # for style in ['continuous', 'discrete']:
-        for style in ['discrete']:
+        for style in ['continuous', 'discrete']:
             print(style)
             img_style = img.copy()
 
@@ -78,6 +75,9 @@ if __name__ == "__main__":
 
                 # print(f'{name}: {loc} ==> {(px,py)}')
                 points.append([px,py])
+
+            # hypothesis: higher up (smaller y) has priority, then left to right
+            points = sorted(points, key = lambda x: x[1]+x[0]/10000000) 
 
             if style == 'continuous':
                 # compute Voronoi tesselation
@@ -97,7 +97,10 @@ if __name__ == "__main__":
                     # print(i,':',colors[i] )
             
             elif style == 'discrete':
-                node_locations = np.array(list(locs.values()))
+                node_locations = list(locs.values())
+
+                # hypothesis: higher up (smaller y) has priority, then left to right
+                node_locations = np.array(sorted(node_locations, key = lambda x: x[1]+x[0]/10000000))
 
                 cells = -1*np.ones((grid_ylim[1] - grid_ylim[0]+1, grid_xlim[1] - grid_xlim[0]+1))
                 for x in range(grid_xlim[0], grid_xlim[1]+1):
