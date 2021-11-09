@@ -2,7 +2,7 @@
 
 ![My Map](./generated_maps/Almsivi_Intervention_Map-Anthology_Solstheim-GotY-TR_Mainland-TR_Preview-TR_Travels.png)
 
-Developed as an aid to [Tamriel Rebuilt](https://www.tamriel-rebuilt.org/) playthroughs, this tool generates maps for where you teleport to when casting Almsivi Intervention and Divine Intervention. Though these types of maps exist for the base, I couldn't find any that took into account the many new Temples and Shrines added by Tamriel Rebuilt. From there, I realized I should make a generator that could support any configuration of mods, including OpenMW
+Developed as an aid to [Tamriel Rebuilt](https://www.tamriel-rebuilt.org/) playthroughs, this tool generates maps for where you teleport to when casting Almsivi Intervention and Divine Intervention. Though these types of maps exist for the base, I couldn't find any that took into account the many new Temples and Shrines added by Tamriel Rebuilt. From there, I realized I should make a generator that could support any configuration of mods, including OpenMW.
 
 ![Old Map](https://images.uesp.net/4/4a/MW-map-Almsivi_Intervention.jpg)
 
@@ -16,7 +16,7 @@ The short answer is this is exceedingly tedious to verify in-game, as you would 
 
 The long answer is that the base game calculates Interventions on a per-cell basis, and calculates distance based on the number of cells needed to traverse from the start point to the end point. This leads to a bunch of ties, and I haven't quite figured out what priority scheme it uses to resolve those ties. This accounts for small differences between my maps and the canonical ones on Vvardenfell (specifically, Divine Intervention from cell [9,2] taking you to Pelagiad in the base game). I'm working on it.
 
-The shortest answer is you should use OpenMW, because it uses continuous pythagorean distances to calculate the closest node. It also supports the Mournhold nodes, I think.
+The shortest answer is that you should use OpenMW. I'm much more confident in the OpenMW maps because OpenMW uses continuous pythagorean distances to calculate the closest node. It also supports the Mournhold nodes, I think.
 
 ## How to Use
 
