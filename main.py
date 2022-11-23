@@ -185,7 +185,7 @@ if __name__ == "__main__":
     
     mod_options = ['Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience']
 
-    mod_list = ['Morrowind', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim']
+    mod_list = ['Morrowind', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience']
 
     for map_type in ['Almsivi', 'Divine']:
         coord_dict = master_dict[map_type]
