@@ -168,7 +168,11 @@ def produce_map(img, coord_dict, map_type, mod_list):
         cv2.circle(img_comp, (int(p[0]),int(p[1])), radius=10, color=(0,0,0), thickness=-1)
 
     # Write Title
-    cv2.putText(img_comp, map_name, (50,150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0,0,0), thickness=2)
+    cv2.putText(img_comp, map_name.split('-')[0].replace('_',' '), (50,150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0,0,0), thickness=2)
+    # Write Mods
+    for i,s in enumerate(map_name.split('-')[1:]):
+        cv2.putText(img_comp, s.replace('_',' '), (100, 220 + 60*i), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,0), thickness=2)
+
 
     # Save
     cv2.imwrite(f'./generated_maps/{map_name}.png',img_comp)
