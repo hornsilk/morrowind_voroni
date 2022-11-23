@@ -13,4 +13,14 @@ https://en.uesp.net/wiki/File:MW-map-Divine_Intervention.jpg
 1.2     fix the new scale / shift
 1.3     # cell coordinates of the world map
 1.4     # pixel scale of the world map grid in 'img'
-2       pull new locations
+
+2       download new update
+
+3       check install
+3.1     launch wyre mash
+3.2     new file, testing lizard
+3.3     go outside, `tcl`, `player->setspeed 10000`
+3.4     `coe X,Y` (cell coordinates)
+3.5     `coc [CELLNAME]`
+
+4       pull new locations
