@@ -35,8 +35,8 @@ def produce_map(img, coord_dict, map_type, mod_list):
 
     
     # cell coordinates of the world map
-    grid_xlim = [-44,64]
-    grid_ylim = [-64,34]
+    grid_xlim = [-44,59]
+    grid_ylim = [-63,36]
     # pixel scale of the world map grid in 'img'
     grid_size = 40 
 
