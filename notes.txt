@@ -17,7 +17,7 @@ https://en.uesp.net/wiki/File:MW-map-Divine_Intervention.jpg
 2       download new update
 
 3       check install
-3.1     launch wyre mash
+3.1     launch wyre mash (and vortex?)
 3.2     new file, testing lizard
 3.3     go outside, `tcl`, `player->setspeed 10000`
 3.4     `coe X,Y` (cell coordinates)
