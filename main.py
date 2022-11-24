@@ -186,7 +186,7 @@ if __name__ == "__main__":
     with open('./coord.json') as fp:
         master_dict = json.load(fp)
     
-    mod_options = ['Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience','SHotN','Province:Cyrodiil']
+    mod_options = ['Morrowind','Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience','SHotN','Province_Cyrodiil']
 
     mod_list = ['Morrowind', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience']
 
