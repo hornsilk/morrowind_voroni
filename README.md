@@ -1,12 +1,12 @@
 # Morrowind_Voroni, a Almsivi/Divine Intervention Map Generator
 
-![My Map](./OpenMW_Almsivi_Intervention_Map.png)
+![My Map](./show_maps/OpenMW_Almsivi_Intervention_Map.png)
 
 Developed as an aid to [Tamriel Rebuilt](https://www.tamriel-rebuilt.org/) playthroughs, this tool generates maps for where you teleport to when casting Almsivi Intervention and Divine Intervention. Though these types of maps exist for the base, I couldn't find any that took into account the many new Temples and Shrines added by Tamriel Rebuilt. From there, I realized I should make a generator that could support any configuration of mods, including OpenMW.
 
 ![Old Map](https://images.uesp.net/4/4a/MW-map-Almsivi_Intervention.jpg)
 
-![New Map](./Almsivi_Intervention_Map.png)
+![New Map](./show_maps/Almsivi_Intervention_Map-Basic.png)
 
 ## Disclaimer
 
