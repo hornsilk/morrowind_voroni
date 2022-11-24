@@ -38,11 +38,14 @@
         "Fort Umbermoth": [37,-17,"TR_Mainland"],
         "Gnisis": [-10,11,"Vvardenfell"],
         "Helnim": [25,1,"TR_Mainland"],
+        "Karthwasten": [-105,5,"SHotN"],
         "Moonmoth Legion Fort": [-1,-3,"Vvardenfell"],
         "Mournhold, Royal Palace: Courtyard": [23,-28,"Tribunal"],
         "Narsis": [6,-51,"TR_Preview"],
         "Old Ebonheart": [6,-19,"TR_Mainland"],
         "Pelagiad": [0,-7,"Vvardenfell"],
+        "Stirk": [-137,-51,"Province:Cyrodiil"],
+        "Taurus Hall Legion Fort": [-112, 11,"SHotN"],
         "Windmoth Legion Fort": [35,-7,"TR_Mainland"],
         "Wolverine Hall": [18,3,"Vvardenfell"]
     }

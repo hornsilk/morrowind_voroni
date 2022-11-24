@@ -7,7 +7,6 @@ import json
 
 
 def produce_map(img, coord_dict, map_type, mod_list):
-    mod_options = ['Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW']
     # Check Modlist
     mod_set = set(mod_list)
 
@@ -187,7 +186,7 @@ if __name__ == "__main__":
     with open('./coord.json') as fp:
         master_dict = json.load(fp)
     
-    mod_options = ['Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience']
+    mod_options = ['Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience','SHotN','Province:Cyrodiil']
 
     mod_list = ['Morrowind', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience']
 
