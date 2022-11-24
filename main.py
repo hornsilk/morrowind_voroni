@@ -6,7 +6,7 @@ from seaborn import color_palette
 import json
 
 
-MOD_OPTIONS = ['Morrowind','Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience','SHotN','Province_Cyrodiil']
+MOD_OPTIONS = ['Morrowind','Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience','SHotN','Province_Cyrodiil']
 
 def produce_map(img, coord_dict, map_type, mod_list):
     # Check Modlist
@@ -27,11 +27,6 @@ def produce_map(img, coord_dict, map_type, mod_list):
     # tr_mainland requires goty
     if 'TR_Mainland' in mod_set and 'GotY' not in mod_set:
         mod_set.remove('TR_Mainland')
-
-    # tr_preview and tr_travels require tr_mainland
-    for tr_ext in ['TR_Preview', 'TR_Travels']:
-        if tr_ext in mod_set and 'TR_Mainland' not in mod_set:
-            mod_set.remove(tr_ext)
 
     # anthology_solstheim requires bloodmoon
     if 'Anthology_Solstheim' in mod_set and 'Bloodmoon' not in mod_set:
@@ -76,9 +71,9 @@ def produce_map(img, coord_dict, map_type, mod_list):
             if tp[2] == 'Vvardenfell':
                 locs[name] = [tp[0], tp[1]]
 
-        # Handle the Vos Node specially, as it is in both Improved_Temple_Experience and TR_Travels
+        # Handle the Vos Node specially, as it is in both Improved_Temple_Experience and TR_Mainland
         if name == 'Vos':
-            if 'Improved_Temple_Experience' in mod_list or 'TR_Travels' in mod_list:
+            if 'Improved_Temple_Experience' in mod_list or 'TR_Mainland' in mod_list:
                 locs[name] = [tp[0], tp[1]]
             continue
 
@@ -194,8 +189,8 @@ if __name__ == "__main__":
     with open('./coord.json') as fp:
         master_dict = json.load(fp)
     
-    mod_list = ['OpenMW', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'Improved_Temple_Experience']
-
+    mod_list = ['OpenMW','GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
+  
     for map_type in ['Almsivi', 'Divine']:
         coord_dict = master_dict[map_type]
         produce_map(img, coord_dict, map_type, mod_list.copy())
