@@ -6,9 +6,16 @@ from seaborn import color_palette
 import json
 
 
+MOD_OPTIONS = ['Morrowind','Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience','SHotN','Province_Cyrodiil']
+
 def produce_map(img, coord_dict, map_type, mod_list):
     # Check Modlist
-    mod_set = set(mod_list)
+    # remove mods not in supported MOD_OPTIONS
+    mod_set = set(MOD_OPTIONS).intersection(set(mod_list))
+
+    # add 'Morrowind'
+    if 'Morrowind' not in mod_set:
+        mod_set.add('Morrowind') 
 
     # goty = bloodmoon + tribunal
     if 'GotY' in mod_set:
@@ -49,7 +56,8 @@ def produce_map(img, coord_dict, map_type, mod_list):
             if 'GotY' in mod_list and (mod == 'Bloodmoon' or mod == 'Tribunal'):
                 continue
             map_name = map_name + f'-{mod}'
-    print(map_name)
+
+    print('Generating ' + map_type + ' map with mod list:')
     print(mod_list)
 
 
@@ -186,9 +194,7 @@ if __name__ == "__main__":
     with open('./coord.json') as fp:
         master_dict = json.load(fp)
     
-    mod_options = ['Morrowind','Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience','SHotN','Province_Cyrodiil']
-
-    mod_list = ['Morrowind', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience']
+    mod_list = ['OpenMW', 'GotY', 'TR_Mainland', 'TR_Preview', 'TR_Travels', 'Anthology_Solstheim', 'Improved_Temple_Experience']
 
     for map_type in ['Almsivi', 'Divine']:
         coord_dict = master_dict[map_type]
