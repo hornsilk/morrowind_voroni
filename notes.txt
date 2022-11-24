@@ -24,3 +24,8 @@ https://en.uesp.net/wiki/File:MW-map-Divine_Intervention.jpg
 3.5     `coc [CELLNAME]`
 
 4       pull new locations
+4.1     nexus CapsCountThree!!
+4.2     launch CS
+4.3     match wyre mash load order
+4.4     # Static - TempleMarker -> INFO
+4.5     # Static - DivineMarker -> INFO
