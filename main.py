@@ -4,6 +4,7 @@ from scipy.spatial import Voronoi
 import cv2
 from seaborn import color_palette
 import json
+import regions
 
 ################################################################################################################################################
 
@@ -169,7 +170,7 @@ def draw_regions_map(img, locs, pxl_points, style):
 
     return img_style
 
-def create_release_mask(img):
+def create_release_mask(img, mod_list):
     mask = np.zeros(img.shape[:2], dtype="uint8")
 
     # Scan through game cells
@@ -181,7 +182,7 @@ def create_release_mask(img):
 
             # Check if the cell is within the TR_Mainland release
             inRelease = False
-            if x > -100:
+            if regions.isReleased(regions.check_region(x, y), mod_list):
                 inRelease = True
 
             # If inRelease, add to mask
@@ -193,11 +194,11 @@ def create_release_mask(img):
     return mask
 
 
-def merge_and_save(img, regions_map, pxl_points, map_name):
+def merge_and_save(img, regions_map, pxl_points, mod_list, map_name):
     # Merge Colormap with Original Image
     alpha = 0.5
 
-    mask = create_release_mask(img)
+    mask = create_release_mask(img, mod_list)
     masked_map = cv2.bitwise_and(regions_map, regions_map, mask=mask)
 
     img_comp =  cv2.addWeighted(masked_map, alpha, img, 1 - alpha, 0)
@@ -249,7 +250,7 @@ def produce_map(img, coord_dict, map_type, mod_list):
     print(mod_list)
     print(map_name + '.png')
     print()
-    merge_and_save(img, regions_map, pxl_points, map_name)
+    merge_and_save(img, regions_map, pxl_points, mod_list, map_name)
    
 
 
