@@ -17,15 +17,14 @@ https://en.uesp.net/wiki/File:MW-map-Divine_Intervention.jpg
 2       download new update
 
 3       check install
-3.1     launch wyre mash (and vortex?)
+3.1     launch vortex and check updates
 3.2     new file, testing lizard
 3.3     go outside, `tcl`, `player->setspeed 10000`
 3.4     `coe X,Y` (cell coordinates)
 3.5     `coc [CELLNAME]`
 
 4       pull new locations
-4.1     nexus CapsCountThree!!
-4.2     launch CS
-4.3     match wyre mash load order
-4.4     # Static - TempleMarker -> INFO
-4.5     # Static - DivineMarker -> INFO
+4.1     launch CS
+4.2     match wyre mash load order
+4.3     # Static - TempleMarker -> INFO
+4.4     # Static - DivineMarker -> INFO

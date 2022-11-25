@@ -5,10 +5,25 @@ import cv2
 from seaborn import color_palette
 import json
 
+################################################################################################################################################
 
 MOD_OPTIONS = ['Morrowind','Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience','SHotN','Province_Cyrodiil']
 
-def produce_map(img, coord_dict, map_type, mod_list):
+# cell coordinates of the world map
+GRID_XLIM = [-44,59]
+GRID_YLIM = [-63,36]
+# pixel scale of the world map grid in 'img'
+GRID_SIZE = 40 
+
+
+################################################################################################################################################
+
+
+
+
+
+
+def parse_modlist(mod_list):
     # Check Modlist
     # remove mods not in supported MOD_OPTIONS
     mod_set = set(MOD_OPTIONS).intersection(set(mod_list))
@@ -34,34 +49,9 @@ def produce_map(img, coord_dict, map_type, mod_list):
 
     mod_list = sorted(list(mod_set))
 
-    
-    # cell coordinates of the world map
-    grid_xlim = [-44,59]
-    grid_ylim = [-63,36]
-    # pixel scale of the world map grid in 'img'
-    grid_size = 40 
+    return mod_list
 
-
-    # Name the Map
-    map_name = f'{map_type}_Intervention_Map'
-    for mod in mod_list:
-        if mod == 'OpenMW':
-            map_name = 'OpenMW_' + map_name
-        elif not mod == 'Morrowind':
-            if 'GotY' in mod_list and (mod == 'Bloodmoon' or mod == 'Tribunal'):
-                continue
-            map_name = map_name + f'-{mod}'
-
-    print('Generating ' + map_type + ' map with mod list:')
-    print(mod_list)
-
-
-    # if OpenMW, use Continuous style. Else use Discrete
-    if 'OpenMW' in mod_list:
-        style = 'Continuous'
-    else:
-        style = 'Discrete'
-
+def prune_locations(coord_dict, mod_list):
     # Build Location List
     locs = {}
     for name, tp in coord_dict.items():
@@ -89,81 +79,106 @@ def produce_map(img, coord_dict, map_type, mod_list):
                     locs[name] = [tp[0], tp[1]]
 
             # Mournhold intervention is inaccessible without OpenMW
+            # and now, with TR_Preview dead, Mournhold is fully unlinked from the mainland. should not be included either way.
             elif tp[2] == 'Tribunal':
                 if 'OpenMW' in mod_list:
-                    locs[name] = [tp[0], tp[1]]
+                    # locs[name] = [tp[0], tp[1]]
+                    foo=2
             
             # add the rest, if their mod is present
             else:
                 locs[name] = [tp[0], tp[1]]
 
+    return locs
 
-    # Create Color Palette and Test Img
-    colors = color_palette("Paired", len(locs))
-    img_style = img.copy()
-
-
+def pixelize_location_points(locs):
     # Compute Points in img pixel coordinates
     pxl_points = []
     for name, loc in locs.items():
-        px = (loc[0]-grid_xlim[0]) * grid_size + grid_size/2
-        py = (grid_ylim[1]-loc[1]) * grid_size + grid_size/2
+        px = (loc[0]-GRID_XLIM[0]) * GRID_SIZE + GRID_SIZE/2
+        py = (GRID_YLIM[1]-loc[1]) * GRID_SIZE + GRID_SIZE/2
 
         # print(f'{name}: {loc} ==> {(px,py)}')
         pxl_points.append([px,py])
+    
+    return pxl_points
+
+def compute_voroni_map(locs, pxl_points, colors, img_style):
+    # Compute Voronoi Tesselation
+    vor = Voronoi(pxl_points)
+    
+    # Plot
+    regions, vertices = voronoi_finite_polygons_2d(vor)
+    
+    for i,region in enumerate(regions):
+        polygon = vertices[region]
+        contours = polygon.astype(int)
+
+        c = np.array(colors[i])*255
+        cv2.fillPoly(img_style, pts=[contours], color=c)
+        cv2.drawContours(img_style, [contours], -1, (0,0,0), 2, lineType=cv2.LINE_AA)
+        # print(i,':',colors[i] )
+    return img_style
+
+def compute_kings_map(locs, pxl_points, colors, img_style):
+    node_locations = list(locs.values())
+
+    # Sort Points
+    # hypothesis: higher up (smaller y) has priority, then left to right
+    node_locations = np.array(sorted(node_locations, key = lambda x: x[1]+x[0]/10000000))
+
+    # Compute King's Walk Distance
+    cells = -1*np.ones((GRID_YLIM[1] - GRID_YLIM[0]+1, GRID_XLIM[1] - GRID_XLIM[0]+1))
+    for x in range(GRID_XLIM[0], GRID_XLIM[1]+1):
+        for y in range(GRID_YLIM[0], GRID_YLIM[1]+1):
+            node_idx = np.argmin(np.apply_along_axis(np.amax, 1, abs(node_locations - [x,y])))
+            # print(x,y,node_idx)
+
+            i = (x - GRID_XLIM[0])
+            j = (GRID_YLIM[1] - y)
+            cells[j,i] = node_idx
+
+            # Draw
+            pt1 = (i*GRID_SIZE, j*GRID_SIZE)
+            pt2 = ((i+1)*GRID_SIZE, (j+1)*GRID_SIZE)
+            c = np.array(colors[node_idx])*255
+            cv2.rectangle(img_style, pt1, pt2, c, -1)
+
+            # COUNT += 1
+            # if COUNT % 100 is 0:
+            #     imS = cv2.resize(img_style, (int(img_style.shape[1]/5), int(img_style.shape[0]/5)))
+            #     cv2.imshow("test",imS)
+            #     cv2.waitKey()
+            #     foo=2
+    
+    # Detect Edges
+    img_gray = cv2.cvtColor(img_style, cv2.COLOR_BGR2GRAY)
+    edges = cv2.Canny(image=img_gray, threshold1=0, threshold2=200)
+    img_style = cv2.bitwise_and(img_style, img_style, mask=(255-edges))
+    return img_style
+
+def draw_regions_map(img, locs, pxl_points, style):
+    # Create Color Palette and Test Img
+    colors = color_palette("Paired", len(locs))
+    img_style = img.copy()
 
     # Sort Points
     # hypothesis: higher up (smaller y) has priority, then left to right
     pxl_points = sorted(pxl_points, key = lambda x: -x[1]+x[0]/10000000) 
 
     if style == 'Continuous':
-        # Compute Voronoi Tesselation
-        vor = Voronoi(pxl_points)
-        
-        # Plot
-        regions, vertices = voronoi_finite_polygons_2d(vor)
-        
-        for i,region in enumerate(regions):
-            polygon = vertices[region]
-            contours = polygon.astype(int)
-
-            c = np.array(colors[i])*255
-            cv2.fillPoly(img_style, pts=[contours], color=c)
-            cv2.drawContours(img_style, [contours], -1, (0,0,0), 2, lineType=cv2.LINE_AA)
-            # print(i,':',colors[i] )
+        img_style = compute_voroni_map(locs, pxl_points, colors, img_style)
     
     elif style == 'Discrete':
-        node_locations = list(locs.values())
-
-        # Sort Points
-        # hypothesis: higher up (smaller y) has priority, then left to right
-        node_locations = np.array(sorted(node_locations, key = lambda x: x[1]+x[0]/10000000))
-
-        # Compute King's Walk Distance
-        cells = -1*np.ones((grid_ylim[1] - grid_ylim[0]+1, grid_xlim[1] - grid_xlim[0]+1))
-        for x in range(grid_xlim[0], grid_xlim[1]+1):
-            for y in range(grid_ylim[0], grid_ylim[1]+1):
-                node_idx = np.argmin(np.apply_along_axis(np.amax, 1, abs(node_locations - [x,y])))
-                # print(x,y,node_idx)
-
-                i = (x - grid_xlim[0])
-                j = (grid_ylim[1] - y)
-                cells[j,i] = node_idx
-
-                # Draw
-                pt1 = (i*grid_size, j*grid_size)
-                pt2 = ((i+1)*grid_size, (j+1)*grid_size)
-                c = np.array(colors[node_idx])*255
-                cv2.rectangle(img_style, pt1, pt2, c, -1)
+        img_style = compute_kings_map(locs, pxl_points, colors, img_style)
         
-        # Detect Edges
-        img_gray = cv2.cvtColor(img_style, cv2.COLOR_BGR2GRAY)
-        edges = cv2.Canny(image=img_gray, threshold1=0, threshold2=200)
-        img_style = cv2.bitwise_and(img_style, img_style, mask=(255-edges))
 
+    return img_style
+
+def merge_and_save(img, regions_map, pxl_points, map_name):
     # Merge Colormap with Original Image
     alpha = 0.5
-    img_comp =  cv2.addWeighted(img_style, alpha, img, 1 - alpha, 0)
+    img_comp =  cv2.addWeighted(regions_map, alpha, img, 1 - alpha, 0)
 
     # Draw Dots on Locations
     for p in pxl_points:
@@ -178,6 +193,41 @@ def produce_map(img, coord_dict, map_type, mod_list):
 
     # Save
     cv2.imwrite(f'./generated_maps/{map_name}.png',img_comp)
+
+def produce_map(img, coord_dict, map_type, mod_list):
+    
+    mod_list = parse_modlist(mod_list)
+    
+
+    # Name the Map
+    map_name = f'{map_type}_Intervention_Map'
+    for mod in mod_list:
+        if mod == 'OpenMW':
+            map_name = 'OpenMW_' + map_name
+        elif not mod == 'Morrowind':
+            if 'GotY' in mod_list and (mod == 'Bloodmoon' or mod == 'Tribunal'):
+                continue
+            map_name = map_name + f'-{mod}'
+
+
+
+    # if OpenMW, use Continuous style. Else use Discrete
+    if 'OpenMW' in mod_list:
+        style = 'Continuous'
+    else:
+        style = 'Discrete'
+
+
+    locs = prune_locations(coord_dict, mod_list)
+    pxl_points = pixelize_location_points(locs)
+    regions_map = draw_regions_map(img, locs, pxl_points, style)
+
+
+    print('Generating ' + map_type + ' map with mod list:')
+    print(mod_list)
+    print(map_name + '.png')
+    print()
+    merge_and_save(img, regions_map, pxl_points, map_name)
    
 
 
@@ -190,6 +240,7 @@ if __name__ == "__main__":
         master_dict = json.load(fp)
     
     mod_list = ['OpenMW','GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
+    # mod_list = ['GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
   
     for map_type in ['Almsivi', 'Divine']:
         coord_dict = master_dict[map_type]
