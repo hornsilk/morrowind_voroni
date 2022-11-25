@@ -11,8 +11,8 @@ import regions
 MOD_OPTIONS = ['Morrowind','Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience','SHotN','Province_Cyrodiil']
 
 # cell coordinates of the world map
-GRID_XLIM = [-44,59]
-GRID_YLIM = [-63,36]
+GRID_XLIM = [-42,60]
+GRID_YLIM = [-64,37]
 # pixel scale of the world map grid in 'img'
 GRID_SIZE = 40 
 
