@@ -144,12 +144,6 @@ def compute_kings_map(locs, pxl_points, colors, img_style):
             c = np.array(colors[node_idx])*255
             cv2.rectangle(img_style, pt1, pt2, c, -1)
 
-            # COUNT += 1
-            # if COUNT % 100 is 0:
-            #     imS = cv2.resize(img_style, (int(img_style.shape[1]/5), int(img_style.shape[0]/5)))
-            #     cv2.imshow("test",imS)
-            #     cv2.waitKey()
-            #     foo=2
     
     # Detect Edges
     img_gray = cv2.cvtColor(img_style, cv2.COLOR_BGR2GRAY)
@@ -175,10 +169,38 @@ def draw_regions_map(img, locs, pxl_points, style):
 
     return img_style
 
+def create_release_mask(img):
+    mask = np.zeros(img.shape[:2], dtype="uint8")
+
+    # Scan through game cells
+    cells = -1*np.ones((GRID_YLIM[1] - GRID_YLIM[0]+1, GRID_XLIM[1] - GRID_XLIM[0]+1))
+    for x in range(GRID_XLIM[0], GRID_XLIM[1]+1):
+        for y in range(GRID_YLIM[0], GRID_YLIM[1]+1):
+            i = (x - GRID_XLIM[0])
+            j = (GRID_YLIM[1] - y)
+
+            # Check if the cell is within the TR_Mainland release
+            inRelease = False
+            if x > -100:
+                inRelease = True
+
+            # If inRelease, add to mask
+            if inRelease:
+                pt1 = (i*GRID_SIZE, j*GRID_SIZE)
+                pt2 = ((i+1)*GRID_SIZE, (j+1)*GRID_SIZE)
+                cv2.rectangle(mask, pt1, pt2, 255, -1)
+
+    return mask
+
+
 def merge_and_save(img, regions_map, pxl_points, map_name):
     # Merge Colormap with Original Image
     alpha = 0.5
-    img_comp =  cv2.addWeighted(regions_map, alpha, img, 1 - alpha, 0)
+
+    mask = create_release_mask(img)
+    masked_map = cv2.bitwise_and(regions_map, regions_map, mask=mask)
+
+    img_comp =  cv2.addWeighted(masked_map, alpha, img, 1 - alpha, 0)
 
     # Draw Dots on Locations
     for p in pxl_points:
@@ -242,7 +264,8 @@ if __name__ == "__main__":
     mod_list = ['OpenMW','GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
     # mod_list = ['GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
   
-    for map_type in ['Almsivi', 'Divine']:
+    # for map_type in ['Almsivi', 'Divine']:
+    for map_type in ['Almsivi']:
         coord_dict = master_dict[map_type]
         produce_map(img, coord_dict, map_type, mod_list.copy())
 
