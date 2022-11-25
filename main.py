@@ -256,7 +256,7 @@ def produce_map(img, coord_dict, map_type, mod_list):
 
 if __name__ == "__main__":
 
-    img = cv2.imread('tr_map.png')
+    img = cv2.imread('./reference_maps/tr_map.png')
     
     with open('./coord.json') as fp:
         master_dict = json.load(fp)
