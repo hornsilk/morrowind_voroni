@@ -1,3 +1,10 @@
+import json
+
+vanilla_regions = ['West_Gash','Sheogorad','Ashlands','Red_Mountain','Bitter_Coast','Ascadian_Isles','Grazelands','Azuras_Coast','Molag_Amur']
+solstheim_regions = ['Moespring_Mountains','Felsaad_Coast','Isinfier_Plains','Hirstaang_Forest']
+tr_released_regions = ['Sea_of_Ghosts_E','Dagon_Urul','Molagreahd','Telvanni_Isles','Boethiahs_Spine','Molag_Ruhn','Mephalan_Vales','Sacred_Lands','Sundered_Scar','Lan_Orethan','Nedothril','Padomaic_Ocean_N','Aanthirin','Armun_Ashlands','Roth_Roryn','Velothi_Mountains_E','Alt_Orethan']
+tr_unreleased_regions = ['Sea_of_Ghosts_W','Padomaic_Ocean_S','Almalexia','Amber_Forest','Deshaan_Plains','Mudflats','Salt_Washes','Arnesian_Basin','Velothi_Mountains_W','Coronati_Basin','Othreleth_Woods','Shipal_Shin','Clambering_Moor','Grey_Meadows','Julan_Shar','Uld_Vraech']
+
 def check_region(cellX, cellY):
     x = cellX
     y = cellY
@@ -325,24 +332,20 @@ def check_region_vanilla_solstheim(cellX, cellY):
     else:
         return check_region(cellX,cellY)
 
-
-
 def isReleased(region_name, mod_list):
     game_regions = []
 
     ## Add vanilla regions
-    game_regions += ['West_Gash','Sheogorad','Ashlands','Red_Mountain','Bitter_Coast','Ascadian_Isles','Grazelands','Azuras_Coast','Molag_Amur']
+    game_regions += vanilla_regions
 
     ## Add expansion regions
     if 'Anthology_Solstheim' in mod_list or 'Bloodmoon' in mod_list:
-        game_regions += ['Moespring_Mountains','Felsaad_Coast','Isinfier_Plains','Hirstaang_Forest']
+        game_regions += solstheim_regions
     # if 'Tribunal' in mod_list:
     #     game_regions.append('Mournhold')
 
-    ## Add tr regions
-    tr_released_regions = ['Sea_of_Ghosts_E','Dagon_Urul','Molagreahd','Telvanni_Isles','Boethiahs_Spine','Molag_Ruhn','Mephalan_Vales','Sacred_Lands','Sundered_Scar','Lan_Orethan','Nedothril','Padomaic_Ocean_N','Aanthirin','Armun_Ashlands','Roth_Roryn','Velothi_Mountains_E','Alt_Orethan']
-    tr_unreleased_regions = ['Sea_of_Ghosts_W','Padomaic_Ocean_S','Almalexia','Amber_Forest','Deshaan_Plains','Mudflats','Salt_Washes','Arnesian_Basin','Velothi_Mountains_W','Coronati_Basin','Othreleth_Woods','Shipal_Shin','Clambering_Moor','Grey_Meadows','Julan_Shar','Uld_Vraech']
 
+    ## Add tr regions
     if 'TR_Mainland' in mod_list:
         game_regions += tr_released_regions
 
@@ -351,3 +354,22 @@ def isReleased(region_name, mod_list):
         return True
     else:
         return False
+
+def writeRegionLookupTable(grid_xlim, grid_ylim):
+    region_dict = {}
+
+    for x in range(grid_xlim[0], grid_xlim[1]+1):
+        for y in range(grid_ylim[0], grid_ylim[1]+1):
+            region = check_region(x,y)
+            if region != 'unknown':
+                region_dict[f'{x}_{y}'] = region
+
+    with open('./region_lookup_dict.json', 'w') as fp:
+        json.dump(region_dict, fp)
+
+if __name__ == "__main__":
+    grid_xlim = [-42,60]
+    grid_ylim = [-64,37]
+    grid_size = 40
+
+    # writeRegionLookupTable(grid_xlim, grid_ylim)
