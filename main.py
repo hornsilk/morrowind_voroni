@@ -182,7 +182,13 @@ def create_release_mask(img, mod_list):
 
             # Check if the cell is within the TR_Mainland release
             inRelease = False
-            if regions.isReleased(regions.check_region(x, y), mod_list):
+
+            if 'Anthology_Solstheim' in mod_list:
+                regionName = regions.check_region(x, y)
+            else:
+                regionName = regions.check_region_vanilla_solstheim(x,y)
+
+            if regions.isReleased(regionName, mod_list):
                 inRelease = True
 
             # If inRelease, add to mask

@@ -118,7 +118,7 @@ def check_region(cellX, cellY):
     if x in range(0,15 +1) and y in range(-8,4 +1): return 'Molag_Amur'
 
 
-    ## Solstheim
+    ## Anthology Solstheim 
     # Moespring_Mountains
     if x == -21 and y == 29: return 'Moespring_Mountains'
     if x == -20 and y in range(29,33 +1): return 'Moespring_Mountains'
@@ -310,6 +310,22 @@ def check_region(cellX, cellY):
 
     return 'unknown'
 
+def check_region_vanilla_solstheim(cellX, cellY):
+    # Anthology Solstheim is shifted 7 cells to the east, 6 cells to the north 
+    # Anthology Solstheim lies inside of [-21,-10]x, [21,34]y
+    anthSolsRange = [-21,-10,21,34]
+    xShift = 7
+    yShift = 6
+    vanillaSolsRange = [anthSolsRange[0]-xShift,anthSolsRange[1]-xShift,anthSolsRange[2]-yShift,anthSolsRange[3]-yShift]
+
+    if cellX in range(vanillaSolsRange[0],vanillaSolsRange[1]+1) and cellY in range(vanillaSolsRange[2],vanillaSolsRange[3]+1):
+        return check_region(cellX+xShift, cellY+yShift)
+    elif cellX in range(anthSolsRange[0],anthSolsRange[1]+1) and cellY in range(anthSolsRange[2],anthSolsRange[3]+1):
+        return check_region(cellX+xShift, cellY+yShift)
+    else:
+        return check_region(cellX,cellY)
+
+
 
 def isReleased(region_name, mod_list):
     game_regions = []
@@ -318,10 +334,8 @@ def isReleased(region_name, mod_list):
     game_regions += ['West_Gash','Sheogorad','Ashlands','Red_Mountain','Bitter_Coast','Ascadian_Isles','Grazelands','Azuras_Coast','Molag_Amur']
 
     ## Add expansion regions
-    if 'Anthology_Solstheim' in mod_list:
+    if 'Anthology_Solstheim' in mod_list or 'Bloodmoon' in mod_list:
         game_regions += ['Moespring_Mountains','Felsaad_Coast','Isinfier_Plains','Hirstaang_Forest']
-    # elif 'Bloodmoon' in mod_list:
-    #     game_regions.append('Vanilla_Solstheim')
     # if 'Tribunal' in mod_list:
     #     game_regions.append('Mournhold')
 
