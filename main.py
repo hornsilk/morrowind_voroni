@@ -265,10 +265,8 @@ if __name__ == "__main__":
         master_dict = json.load(fp)
     
     mod_list = ['OpenMW','GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
-    # mod_list = ['GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
   
-    # for map_type in ['Almsivi', 'Divine']:
-    for map_type in ['Almsivi']:
+    for map_type in ['Almsivi', 'Divine']:
         coord_dict = master_dict[map_type]
         produce_map(img, coord_dict, map_type, mod_list.copy())
 
