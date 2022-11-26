@@ -197,9 +197,11 @@ def create_release_mask(img, mod_list):
 def merge_and_save(img, regions_map, pxl_points, mod_list, map_name):
     # Merge Colormap with Original Image
     alpha = 0.5
+    alpha_map = 0.8
 
     mask = create_release_mask(img, mod_list)
     masked_map = cv2.bitwise_and(regions_map, regions_map, mask=mask)
+    masked_map =  cv2.addWeighted(masked_map, alpha_map, regions_map, 1 - alpha_map, 0)
 
     img_comp =  cv2.addWeighted(masked_map, alpha, img, 1 - alpha, 0)
 
