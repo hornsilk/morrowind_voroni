@@ -178,10 +178,30 @@ def draw_regions_map(img, locs, pxl_points, style):
     # Create Color Palette and Test Img
     colors = generate_custom_color_palette(locs)
     img_style = img.copy()
+    print(pxl_points)
 
+    pp_copy = pxl_points.copy()
+
+    zzz = zip(pxl_points, locs.keys(), locs.values(), colors)
     # Sort Points
     # hypothesis: higher up (smaller y) has priority, then left to right
     # pxl_points = sorted(pxl_points, key = lambda x: -x[1]+x[0]/10000000) 
+    pp_copy = sorted(pp_copy, key = lambda x: -x[1]+x[0]/10000000) 
+
+    zzz = sorted(zzz, key = lambda triple: -triple[0][1]+triple[0][0]/10000000) 
+    pxl_points_s = [_[0] for _ in zzz]
+    locs_k_s = [_[1] for _ in zzz]
+    locs_v_s = [_[2] for _ in zzz]
+    colors_s = [_[3] for _ in zzz]
+
+    pxl_points = pxl_points_s
+    colors = colors_s
+    locs = {}
+    for i in range(len(locs_k_s)):
+        locs[locs_k_s[i]] = locs_v_s[i]
+    foo=2
+
+
 
     if style == 'Continuous':
         img_style = compute_voroni_map(locs, pxl_points, colors, img_style)
