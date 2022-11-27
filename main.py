@@ -152,14 +152,36 @@ def compute_kings_map(locs, pxl_points, colors, img_style):
     img_style = cv2.bitwise_and(img_style, img_style, mask=(255-edges))
     return img_style
 
+def generate_custom_color_palette(locs):
+
+    with open('./region_colors.json') as fp:
+        region_colors = json.load(fp)
+
+    with open('./region_lookup_dict.json') as fp:
+        region_lookup_dict = json.load(fp)
+
+    foo = 2
+
+    colors = []
+    for n,l in locs.items():
+        x = l[0]
+        y = l[1]
+        r = regions.check_region(x,y,region_lookup_dict)
+        c = region_colors[r]
+        colors.append((c[0]/255,c[1]/255,c[2]/255))
+
+    # colors = color_palette("Paired", len(locs))
+    return colors
+
+
 def draw_regions_map(img, locs, pxl_points, style):
     # Create Color Palette and Test Img
-    colors = color_palette("Paired", len(locs))
+    colors = generate_custom_color_palette(locs)
     img_style = img.copy()
 
     # Sort Points
     # hypothesis: higher up (smaller y) has priority, then left to right
-    pxl_points = sorted(pxl_points, key = lambda x: -x[1]+x[0]/10000000) 
+    # pxl_points = sorted(pxl_points, key = lambda x: -x[1]+x[0]/10000000) 
 
     if style == 'Continuous':
         img_style = compute_voroni_map(locs, pxl_points, colors, img_style)
