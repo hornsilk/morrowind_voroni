@@ -1,152 +1,152 @@
 {
     "West_Gash": [
-        180,
+        151,
         165,
-        151
-    ],
-    "Sheogorad": [
-        158,
-        136,
-        176
-    ],
-    "Ashlands": [
-        209,
-        194,
-        186
-    ],
-    "Red_Mountain": [
-        227,
-        155,
-        147
-    ],
-    "Bitter_Coast": [
-        130,
-        137,
-        216
-    ],
-    "Ascadian_Isles": [
-        161,
-        200,
-        127
-    ],
-    "Grazelands": [
-        232,
-        193,
-        139
-    ],
-    "Azuras_Coast": [
-        208,
-        218,
-        141
-    ],
-    "Molag_Amur": [
-        183,
-        167,
-        153
-    ],
-    "Moespring_Mountains": [
-        140,
-        220,
-        218
-    ],
-    "Felsaad_Coast": [
-        209,
-        210,
-        195
-    ],
-    "Isinfier_Plains": [
-        223,
-        204,
-        179
-    ],
-    "Hirstaang_Forest": [
-        168,
-        166,
-        132
-    ],
-    "Sea_of_Ghosts_E": [
-        123,
-        180,
         180
     ],
-    "Dagon_Urul": [
-        220,
-        135,
-        132
+    "Sheogorad": [
+        176,
+        136,
+        158
     ],
-    "Molagreahd": [
-        177,
-        158,
-        170
-    ],
-    "Telvanni_Isles": [
-        183,
-        183,
-        137
-    ],
-    "Boethiahs_Spine": [
-        190,
-        180,
-        161
-    ],
-    "Molag_Ruhn": [
-        187,
-        213,
-        137
-    ],
-    "Mephalan_Vales": [
-        187,
-        183,
-        155
-    ],
-    "Sacred_Lands": [
-        217,
-        148,
+    "Ashlands": [
+        186,
+        194,
         209
     ],
+    "Red_Mountain": [
+        147,
+        155,
+        227
+    ],
+    "Bitter_Coast": [
+        216,
+        137,
+        130
+    ],
+    "Ascadian_Isles": [
+        127,
+        200,
+        161
+    ],
+    "Grazelands": [
+        139,
+        193,
+        232
+    ],
+    "Azuras_Coast": [
+        141,
+        218,
+        208
+    ],
+    "Molag_Amur": [
+        153,
+        167,
+        183
+    ],
+    "Moespring_Mountains": [
+        218,
+        220,
+        140
+    ],
+    "Felsaad_Coast": [
+        195,
+        210,
+        209
+    ],
+    "Isinfier_Plains": [
+        179,
+        204,
+        223
+    ],
+    "Hirstaang_Forest": [
+        132,
+        166,
+        168
+    ],
+    "Sea_of_Ghosts_E": [
+        180,
+        180,
+        123
+    ],
+    "Dagon_Urul": [
+        132,
+        135,
+        220
+    ],
+    "Molagreahd": [
+        170,
+        158,
+        177
+    ],
+    "Telvanni_Isles": [
+        137,
+        183,
+        183
+    ],
+    "Boethiahs_Spine": [
+        161,
+        180,
+        190
+    ],
+    "Molag_Ruhn": [
+        137,
+        213,
+        187
+    ],
+    "Mephalan_Vales": [
+        155,
+        183,
+        187
+    ],
+    "Sacred_Lands": [
+        209,
+        148,
+        217
+    ],
     "Sundered_Scar": [
-        169,
+        141,
         171,
-        141
+        169
     ],
     "Lan_Orethan": [
-        164,
+        146,
         188,
-        146
+        164
     ],
     "Nedothril": [
-        216,
+        138,
         182,
-        138
+        216
     ],
     "Padomaic_Ocean_N": [
-        117,
+        189,
         158,
-        189
+        117
     ],
     "Aanthirin": [
-        171,
+        202,
         187,
-        202
+        171
     ],
     "Armun_Ashlands": [
-        194,
+        170,
         179,
-        170
+        194
     ],
     "Roth_Roryn": [
-        176,
+        142,
         154,
-        142
+        176
     ],
     "Velothi_Mountains_E": [
-        166,
+        215,
         145,
-        215
+        166
     ],
     "Alt_Orethan": [
-        207,
+        197,
         202,
-        197
+        207
     ]
 }

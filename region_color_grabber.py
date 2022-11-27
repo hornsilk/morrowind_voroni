@@ -1,11 +1,13 @@
 import cv2
+import numpy as np
 import json
 from colorthief import ColorThief
 
 from main import GRID_XLIM, GRID_YLIM, GRID_SIZE
 from regions import vanilla_regions, solstheim_regions, tr_released_regions
 
-if __name__ == "__main__":
+
+def grab_colors():
     tr_regions_img = cv2.imread('./reference_maps/tr_regions.png')
 
     region_imgs = {}
@@ -47,9 +49,23 @@ if __name__ == "__main__":
         region_color = ct.get_color(quality=1)
         foo=2
 
-        region_colors[region] = region_color
+        region_colors[region] = (region_color[2],region_color[1],region_color[0])
         # cv2.imshow(region,region_imgs[region])
         # cv2.waitKey()
 
     with open('./region_colors.json', 'w') as fp:
         json.dump(region_colors, fp)
+
+if __name__ == "__main__":
+    # grab_colors()
+
+    with open('./region_colors.json') as fp:
+        region_colors = json.load(fp)
+
+    for r,c in region_colors.items():
+        img = np.zeros((300, 300, 3), dtype="uint8")
+        img[:] = c
+
+        cv2.imshow(r,img)
+        cv2.waitKey()
+        
