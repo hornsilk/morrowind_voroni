@@ -177,40 +177,35 @@ def generate_custom_color_palette(locs):
 def draw_regions_map(img, locs, pxl_points, style):
     # Create Color Palette and Test Img
     colors = generate_custom_color_palette(locs)
-    img_style = img.copy()
-    print(pxl_points)
 
-    pp_copy = pxl_points.copy()
 
-    zzz = zip(pxl_points, locs.keys(), locs.values(), colors)
     # Sort Points
     # hypothesis: higher up (smaller y) has priority, then left to right
     # pxl_points = sorted(pxl_points, key = lambda x: -x[1]+x[0]/10000000) 
-    pp_copy = sorted(pp_copy, key = lambda x: -x[1]+x[0]/10000000) 
 
-    zzz = sorted(zzz, key = lambda triple: -triple[0][1]+triple[0][0]/10000000) 
-    pxl_points_s = [_[0] for _ in zzz]
-    locs_k_s = [_[1] for _ in zzz]
-    locs_v_s = [_[2] for _ in zzz]
-    colors_s = [_[3] for _ in zzz]
+    Z = zip(pxl_points, locs.keys(), locs.values(), colors)
+    Z = sorted(Z, key = lambda triple: -triple[0][1]+triple[0][0]/10000000) 
 
-    pxl_points = pxl_points_s
-    colors = colors_s
+    # unpack
+    pxl_points = [_[0] for _ in Z]
+    locs_k = [_[1] for _ in Z]
+    locs_v = [_[2] for _ in Z]
+    colors = [_[3] for _ in Z]
     locs = {}
-    for i in range(len(locs_k_s)):
-        locs[locs_k_s[i]] = locs_v_s[i]
-    foo=2
+    for i in range(len(locs_k)):
+        locs[locs_k[i]] = locs_v[i]
 
 
+
+    regions_map_img = img.copy()
 
     if style == 'Continuous':
-        img_style = compute_voroni_map(locs, pxl_points, colors, img_style)
+        regions_map_img = compute_voroni_map(locs, pxl_points, colors, regions_map_img)
     
     elif style == 'Discrete':
-        img_style = compute_kings_map(locs, pxl_points, colors, img_style)
+        regions_map_img = compute_kings_map(locs, pxl_points, colors, regions_map_img)
         
-
-    return img_style
+    return regions_map_img
 
 def create_release_mask(img, mod_list):
     mask = np.zeros(img.shape[:2], dtype="uint8")
