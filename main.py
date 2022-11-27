@@ -152,25 +152,41 @@ def compute_kings_map(locs, pxl_points, colors, img_style):
     img_style = cv2.bitwise_and(img_style, img_style, mask=(255-edges))
     return img_style
 
-def generate_custom_color_palette(locs):
+def generate_custom_color_palette(locs, regionalPalette=False):
 
-    with open('./region_colors.json') as fp:
-        region_colors = json.load(fp)
+    if regionalPalette:
+        with open('./region_colors.json') as fp:
+            region_colors = json.load(fp)
 
-    with open('./region_lookup_dict.json') as fp:
-        region_lookup_dict = json.load(fp)
+        with open('./region_lookup_dict.json') as fp:
+            region_lookup_dict = json.load(fp)
 
-    foo = 2
+        colors = []
+        dupe_colors = []
+        for i,loc in enumerate(locs.items()):
+        
+            x = loc[1][0]
+            y = loc[1][1]
+            r = regions.check_region(x,y,region_lookup_dict)
+            c = region_colors[r]
 
-    colors = []
-    for n,l in locs.items():
-        x = l[0]
-        y = l[1]
-        r = regions.check_region(x,y,region_lookup_dict)
-        c = region_colors[r]
-        colors.append((c[0]/255,c[1]/255,c[2]/255))
+            myColor = (c[0]/255,c[1]/255,c[2]/255)
 
-    # colors = color_palette("Paired", len(locs))
+            if myColor in colors:
+                # if color already taken, note it
+                dupe_colors.append(i)
+
+            colors.append(myColor)
+
+        # fix placeholder colors
+        backup_colors = color_palette("Paired", len(dupe_colors))
+        for i,dupe_idx in enumerate(dupe_colors):
+            colors[dupe_idx] = backup_colors[i]
+
+    else:
+        # generic palette
+        colors = color_palette("Paired", len(locs))
+        
     return colors
 
 
