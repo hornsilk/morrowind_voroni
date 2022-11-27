@@ -173,6 +173,9 @@ def draw_regions_map(img, locs, pxl_points, style):
 def create_release_mask(img, mod_list):
     mask = np.zeros(img.shape[:2], dtype="uint8")
 
+    with open('./region_lookup_dict.json') as fp:
+        region_lookup_dict = json.load(fp)
+
     # Scan through game cells
     cells = -1*np.ones((GRID_YLIM[1] - GRID_YLIM[0]+1, GRID_XLIM[1] - GRID_XLIM[0]+1))
     for x in range(GRID_XLIM[0], GRID_XLIM[1]+1):
@@ -184,9 +187,9 @@ def create_release_mask(img, mod_list):
             inRelease = False
 
             if 'Anthology_Solstheim' in mod_list:
-                regionName = regions.check_region(x, y)
+                regionName = regions.check_region(x,y,region_lookup_dict)
             else:
-                regionName = regions.check_region_vanilla_solstheim(x,y)
+                regionName = regions.check_region_vanilla_solstheim(x,y,region_lookup_dict)
 
             if regions.isReleased(regionName, mod_list):
                 inRelease = True

@@ -5,7 +5,17 @@ solstheim_regions = ['Moespring_Mountains','Felsaad_Coast','Isinfier_Plains','Hi
 tr_released_regions = ['Sea_of_Ghosts_E','Dagon_Urul','Molagreahd','Telvanni_Isles','Boethiahs_Spine','Molag_Ruhn','Mephalan_Vales','Sacred_Lands','Sundered_Scar','Lan_Orethan','Nedothril','Padomaic_Ocean_N','Aanthirin','Armun_Ashlands','Roth_Roryn','Velothi_Mountains_E','Alt_Orethan']
 tr_unreleased_regions = ['Sea_of_Ghosts_W','Padomaic_Ocean_S','Almalexia','Amber_Forest','Deshaan_Plains','Mudflats','Salt_Washes','Arnesian_Basin','Velothi_Mountains_W','Coronati_Basin','Othreleth_Woods','Shipal_Shin','Clambering_Moor','Grey_Meadows','Julan_Shar','Uld_Vraech']
 
-def check_region(cellX, cellY):
+def check_region(cellX, cellY, region_lookup_dict):
+    x = cellX
+    y = cellY
+    if f'{x}_{y}' not in region_lookup_dict:
+        return 'unknown'
+
+    region = region_lookup_dict[f'{x}_{y}']
+    return region
+
+
+def check_region_hardcoded(cellX, cellY):
     x = cellX
     y = cellY
 
@@ -317,7 +327,7 @@ def check_region(cellX, cellY):
 
     return 'unknown'
 
-def check_region_vanilla_solstheim(cellX, cellY):
+def check_region_vanilla_solstheim(cellX, cellY, region_lookup_dict):
     # Anthology Solstheim is shifted 7 cells to the east, 6 cells to the north 
     # Anthology Solstheim lies inside of [-21,-10]x, [21,34]y
     anthSolsRange = [-21,-10,21,34]
