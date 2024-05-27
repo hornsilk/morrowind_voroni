@@ -3,6 +3,7 @@ import numpy as np
 from scipy.spatial import Voronoi
 import cv2
 from seaborn import color_palette
+from distinctipy import get_colors
 import json
 import regions
 
@@ -11,8 +12,8 @@ import regions
 MOD_OPTIONS = ['Morrowind','Bloodmoon', 'Tribunal', 'GotY', 'TR_Mainland', 'Anthology_Solstheim', 'OpenMW', 'Improved_Temple_Experience','SHotN','Province_Cyrodiil']
 
 # cell coordinates of the world map
-GRID_XLIM = [-42,60]
-GRID_YLIM = [-64,37]
+GRID_XLIM = [-42,62]
+GRID_YLIM = [-64,41]
 # pixel scale of the world map grid in 'img'
 GRID_SIZE = 40 
 
@@ -180,12 +181,13 @@ def generate_custom_color_palette(locs, regionalPalette=False):
 
         # fix placeholder colors
         backup_colors = color_palette("Paired", len(dupe_colors))
+        # backup_colors = get_colors(len(dupe_colors), pastel_factor=0.3)
         for i,dupe_idx in enumerate(dupe_colors):
             colors[dupe_idx] = backup_colors[i]
 
     else:
         # generic palette
-        colors = color_palette("Paired", len(locs))
+        colors = get_colors(len(locs), pastel_factor=0.3)
         
     return colors
 
@@ -223,11 +225,14 @@ def draw_regions_map(img, locs, pxl_points, style):
         
     return regions_map_img
 
-def create_release_mask(img, mod_list):
+def create_release_mask(img):#, mod_list):
     mask = np.zeros(img.shape[:2], dtype="uint8")
 
-    with open('./region_lookup_dict.json') as fp:
-        region_lookup_dict = json.load(fp)
+    with open('./release_lookup_list.json') as fp:
+        release_lookup_dict = json.load(fp)
+
+    # with open('./region_lookup_dict.json') as fp:
+    #     region_lookup_dict = json.load(fp)
 
     # Scan through game cells
     cells = -1*np.ones((GRID_YLIM[1] - GRID_YLIM[0]+1, GRID_XLIM[1] - GRID_XLIM[0]+1))
@@ -237,18 +242,18 @@ def create_release_mask(img, mod_list):
             j = (GRID_YLIM[1] - y)
 
             # Check if the cell is within the TR_Mainland release
-            inRelease = False
+            # inRelease = False
 
-            if 'Anthology_Solstheim' in mod_list:
-                regionName = regions.check_region(x,y,region_lookup_dict)
-            else:
-                regionName = regions.check_region_vanilla_solstheim(x,y,region_lookup_dict)
+            # if 'Anthology_Solstheim' in mod_list:
+                # regionName = regions.check_region(x,y,region_lookup_dict)
+            # else:
+            #     regionName = regions.check_region_vanilla_solstheim(x,y,region_lookup_dict)
 
-            if regions.isReleased(regionName, mod_list):
-                inRelease = True
+            # if regions.isReleased(regionName, mod_list):
+            #     inRelease = True
 
             # If inRelease, add to mask
-            if inRelease:
+            if f'{x}_{y}'  in release_lookup_dict:
                 pt1 = (i*GRID_SIZE, j*GRID_SIZE)
                 pt2 = ((i+1)*GRID_SIZE, (j+1)*GRID_SIZE)
                 cv2.rectangle(mask, pt1, pt2, 255, -1)
@@ -261,7 +266,7 @@ def merge_and_save(img, regions_map, pxl_points, mod_list, map_name):
     alpha = 0.5
     alpha_map = 0.8
 
-    mask = create_release_mask(img, mod_list)
+    mask = create_release_mask(img)#, mod_list)
     masked_map = cv2.bitwise_and(regions_map, regions_map, mask=mask)
     masked_map =  cv2.addWeighted(masked_map, alpha_map, regions_map, 1 - alpha_map, 0)
 
@@ -327,6 +332,7 @@ if __name__ == "__main__":
         master_dict = json.load(fp)
     
     mod_list = ['OpenMW','GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
+    # mod_list = ['GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
   
     for map_type in ['Almsivi', 'Divine']:
         coord_dict = master_dict[map_type]

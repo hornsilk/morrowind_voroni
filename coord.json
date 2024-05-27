@@ -7,6 +7,7 @@
         "Andothren": [0,-17,"TR_Mainland"],
         "Balmora": [-3,-2,"Vvardenfell"],
         "Ghostgate": [2,4,"Improved_Temple_Experience"],
+        "Hlan Oek": [1,-32,"TR_Mainland"],
         "Gnisis": [-11,11,"Vvardenfell"],
         "Maar Gan": [-3,12,"Improved_Temple_Experience"],
         "Molag Mar": [13,-8,"Vvardenfell"],
@@ -15,6 +16,7 @@
         "Ranyon-ruhn": [27,12,"TR_Mainland"],
         "Sailen": [37,-16,"TR_Mainland"],
         "Suran": [6,-7,"Improved_Temple_Experience"],
+        "Vhul": [10,-24,"TR_Mainland"],
         "Vivec, Temple": [4,-13,"Vvardenfell"],
         "Vos": [11,14,"TR_Mainland"]
     },
