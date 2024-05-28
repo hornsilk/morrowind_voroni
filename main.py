@@ -336,7 +336,7 @@ if __name__ == "__main__":
     mod_list_OMW_ITO = ['OpenMW','GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
     mod_list_vanilla_ITO = ['GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
   
-    mod_list = mod_list_OMW_ITO
+    mod_list = mod_list_vanilla
     
     for map_type in ['Almsivi', 'Divine']:
         coord_dict = master_dict[map_type]
