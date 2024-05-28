@@ -8,6 +8,10 @@ Developed as an aid to [Tamriel Rebuilt](https://www.tamriel-rebuilt.org/) playt
 
 ![New Map](./display_maps/Almsivi_Intervention_Map-Basic.png)
 
+## How to Use
+
+Scroll up, click on the `generated_maps` folder, and download the images you want as reference for your TR playthrough. The filenames are long, but they describe the exact combo of mods used on that map (this is also printed on the top left of the map in case you rename it). I personally like to have [Improved Temple Experience](https://www.nexusmods.com/morrowind/mods/49373) installed, which just adds Almsivi Intervention to Ghostgate (and Vos, but TR also adds it to Vos).
+
 ## Disclaimer
 
 THESE MAPS ARE NOT YET 100% PERFECT. Why?
@@ -18,7 +22,7 @@ The long answer is that the base game calculates Interventions on a per-cell bas
 
 The shortest answer is that you should use OpenMW. I'm much more confident in the OpenMW maps because OpenMW uses continuous pythagorean distances to calculate the closest node. It also supports the Mournhold nodes, I think.
 
-## How to Use
+## How to Generate Your Own Maps
 
 Clone the repository, then in `main.py` change `mod_list = [....]` to your set of mods, picking from the supported `mod_options` list. Run the program to generate the two maps for your configuration in the `generated_maps` folder.
 
