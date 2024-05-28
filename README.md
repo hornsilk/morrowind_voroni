@@ -28,6 +28,8 @@ Clone the repository, then in `main.py` change `mod_list = [....]` to your set o
 
 Running this looks like typing `python main.py` into the command line. You will need to install a few python packages (it will ask for them why you try to run it) by typing `python -m pip install opencv-python` (with `opencv-python` replaced by whatever other packages you are missing).
 
+To add in new Intervention points, look at `coord.json` and edit it by hand. `notes.txt` has a bit of guidance on using the Creation Set to list all of them for you with the exact cells.
+
 If you want to change the area highlighted for current TR releases, you can run `release_clicker.py`. Controls are `left click` to add a cell to the release area, `right click` to remove it, `middle button` to every displayed cell, and `esc` to move to the next map. This updates the (raw) list of cells in `release_lookup_list.json`, so you could also just edit this by hand.
 
 Maps are spliced together using current and future versions of the TR map, using `hack_maps.py`. Kudos to @Taniquetil for incredibly consistent map style that I could just use opencv to splice them as rectangles and not have to muck around in photoshop.
