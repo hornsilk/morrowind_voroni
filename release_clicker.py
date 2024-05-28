@@ -78,7 +78,7 @@ def click_regions():
 
 
     with open('./release_lookup_list.json', 'w') as fp:
-        json.dump(RELEASE_LIST, fp)
+        json.dump(sorted(RELEASE_LIST), fp)
 
 if __name__ == "__main__":
     click_regions()
