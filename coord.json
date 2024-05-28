@@ -22,6 +22,7 @@
     },
     "Divine":
     {  
+        "Andothren": [-1,-16,"TR_Mainland"],
         "Buckmorth Legion Fort": [-2,5,"Vvardenfell"],
         "Ebonheart": [1,-13,"Vvardenfell"],
         "Firewatch": [17,15,"TR_Mainland"],
