@@ -331,10 +331,11 @@ if __name__ == "__main__":
     with open('./coord.json') as fp:
         master_dict = json.load(fp)
     
-    mod_list = ['OpenMW','GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
-    # mod_list = ['GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
+    mod_list_OMW = ['OpenMW','GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
+    mod_list_vanilla = ['GotY', 'TR_Mainland', 'Anthology_Solstheim', 'Improved_Temple_Experience']
   
-    for map_type in ['Almsivi', 'Divine']:
-        coord_dict = master_dict[map_type]
-        produce_map(img, coord_dict, map_type, mod_list.copy())
+    for mod_list in [mod_list_OMW, mod_list_vanilla]:
+        for map_type in ['Almsivi', 'Divine']:
+            coord_dict = master_dict[map_type]
+            produce_map(img, coord_dict, map_type, mod_list.copy())
 
